@@ -1,0 +1,9 @@
+{
+  "name": "ZENOX Personal AI",
+  "short_name": "ZENOX",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050b16",
+  "theme_color": "#050b16",
+  "description": "ZENOX voice assistant prototype"
+}
