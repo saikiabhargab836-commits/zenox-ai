@@ -51,7 +51,7 @@ color:white;font-size:16px;
 function speak(text){
 document.getElementById("reply").innerText=text;
 let msg=new SpeechSynthesisUtterance(text);
-msg.lang="en-IN";
+msg.lang="hi-IN";
 msg.rate=0.9;
 let voices=speechSynthesis.getVoices();
 let male=voices.find(v=>/male/i.test(v.name));
