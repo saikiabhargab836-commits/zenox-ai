@@ -65,12 +65,14 @@ function speak(text) {
   speechSynthesis.speak(speech);
 }
 
+
 async function send() {
   let input = document.getElementById("command");
   let message = input.value.trim();
-  document.getElementById("response").innerText = "ZENOX सोच रहा है...";
 
   if (!message) return;
+
+  document.getElementById("response").innerText = "ZENOX सोच रहा है...";
 
   let q = message.toLowerCase();
   let answer = "";
@@ -96,10 +98,6 @@ async function send() {
     answer = "मैं ZENOX हूँ, आपका Personal AI Assistant.";
   }
   else {
-    answer = "एक मिनट Sir, मैं सोच रहा हूँ...";
-
-    speak(answer);
-
     try {
       let response = await fetch(
         "https://zenox-ai-brains.richibhargab.workers.dev",
@@ -127,15 +125,11 @@ async function send() {
       console.error(error);
     }
   }
-    }
 
   document.getElementById("response").innerText = answer;
-
-  speak(answer);
-  }
-
   speak(answer);
 }
+  
   
 
 function listen(){
