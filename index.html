@@ -98,6 +98,7 @@ function speakNext() {
 async function send() {
   let input = document.getElementById("command");
   let message = input.value.trim();
+  let savedMemory = localStorage.getItem("zenox_memory") || "";
 
   if (!message) return;
 
