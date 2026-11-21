@@ -68,6 +68,7 @@ function speak(text) {
 async function send() {
   let input = document.getElementById("command");
   let message = input.value.trim();
+  document.getElementById("response").innerText = "ZENOX सोच रहा है...";
 
   if (!message) return;
 
@@ -126,6 +127,12 @@ async function send() {
       console.error(error);
     }
   }
+    }
+
+  document.getElementById("response").innerText = answer;
+
+  speak(answer);
+  }
 
   speak(answer);
 }
@@ -153,6 +160,9 @@ r.start();
   <button onclick="send()" style="padding:12px 25px;margin-top:10px;">
     Send
   </button>
+    <div id="response" style="margin-top:15px;padding:12px;color:white;font-size:17px;">
+  ZENOX is ready!
+    </div>
   </div>
   <button onclick="listen()" style="padding:12px 25px;margin-top:10px;">
   🎤 Speak to ZENOX
