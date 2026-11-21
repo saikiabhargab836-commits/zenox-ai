@@ -67,7 +67,7 @@ function say(text){
  u.lang="en-US";u.rate=.88;u.pitch=.85;u.volume=1;
  const voices=synth.getVoices();
  const v=voices.find(x=>x.lang==="en-US")||voices.find(x=>x.lang.startsWith("en-US"));
- if(v)u.voice=v;
+ 
  u.onstart=()=>setStatus("ZENOX SPEAKING");
  u.onend=()=>setStatus("SYSTEM STANDBY");
  synth.speak(u);
