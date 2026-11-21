@@ -37,7 +37,7 @@ color:white;font-size:16px;
 </style>
 </head>
 <body>
-<h1>J.A.R.V.I.S</h1>
+<h1>Z.E.N.O.X</h1>
 <p>PERSONAL AI ASSISTANT</p>
 <div class="circle">🤖</div>
 <p id="status">SYSTEM ONLINE</p>
@@ -45,24 +45,29 @@ color:white;font-size:16px;
 <br>
 <button onclick="send()">SEND</button>
 <button onclick="listen()">🎤 SPEAK</button>
-<div id="reply">Hello Sir! I am JARVIS. How can I help you?</div>
+<div id="reply">Hello Sir! I am Zenox. How can I help you?</div>
 
 <script>
-function speak(text){
-document.getElementById("reply").innerText=text;
-let msg=new SpeechSynthesisUtterance(text);
-msg.lang="hi-IN";
-msg.rate=0.9;
-let voices=speechSynthesis.getVoices();
-let male=voices.find(v=>/male/i.test(v.name));
-if(male)msg.voice=male;
-speechSynthesis.speak(msg);
-}
+function speak(text) {
+  let speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "hi-IN";
+  speech.rate = 0.9;
+  speech.pitch = 0.8;
 
+  let voices = speechSynthesis.getVoices();
+  let hindiVoice = voices.find(v =>
+    v.lang === "hi-IN" && /male|man/i.test(v.name)
+  );
+
+  if (hindiVoice) speech.voice = hindiVoice;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(speech);
+}
 function send(){
 let q=document.getElementById("command").value.toLowerCase();
 if(!q)return;
-let answer="I am JARVIS. I am ready to help you, Sir.";
+let answer="I am ZENOX. I am ready to help you, Sir.";
 if(q.includes("hello")||q.includes("hi")||q.includes("नमस्ते"))
 answer="Hello Sir! How are you today?";
 else if(q.includes("time")||q.includes("समय"))
@@ -74,7 +79,7 @@ else if(q.includes("open youtube"))
 else if(q.includes("open google"))
 {answer="Opening Google Sir.";window.open("https://google.com","_blank");}
 else if(q.includes("who are you"))
-answer="I am JARVIS, your personal assistant.";
+answer="I am ZENOX, your personal assistant.";
 speak(answer);
 }
 
