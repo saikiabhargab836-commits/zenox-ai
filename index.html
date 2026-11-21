@@ -64,24 +64,72 @@ function speak(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(speech);
 }
-function send(){
-let q=document.getElementById("command").value.toLowerCase();
-if(!q)return;
-let answer="I am ZENOX. I am ready to help you, Sir.";
-if(q.includes("hello")||q.includes("hi")||q.includes("नमस्ते"))
-answer="Hello Sir! How are you today?";
-else if(q.includes("time")||q.includes("समय"))
-answer="The time is "+new Date().toLocaleTimeString();
-else if(q.includes("date")||q.includes("तारीख"))
-answer="Today's date is "+new Date().toLocaleDateString();
-else if(q.includes("open youtube"))
-{answer="Opening YouTube Sir.";window.open("https://youtube.com","_blank");}
-else if(q.includes("open google"))
-{answer="Opening Google Sir.";window.open("https://google.com","_blank");}
-else if(q.includes("who are you"))
-answer="I am ZENOX, your personal assistant.";
-speak(answer);
+
+async function send() {
+  let input = document.getElementById("command");
+  let message = input.value.trim();
+
+  if (!message) return;
+
+  let q = message.toLowerCase();
+  let answer = "";
+
+  if (q.includes("hello") || q.includes("hi") || q.includes("नमस्ते")) {
+    answer = "नमस्ते Sir! मैं ZENOX हूँ। बताइए, मैं आपकी क्या मदद करूँ?";
+  }
+  else if (q.includes("time") || q.includes("समय")) {
+    answer = "अभी समय है " + new Date().toLocaleTimeString();
+  }
+  else if (q.includes("date") || q.includes("तारीख")) {
+    answer = "आज की तारीख है " + new Date().toLocaleDateString();
+  }
+  else if (q.includes("open youtube")) {
+    answer = "YouTube खोल रहा हूँ Sir.";
+    window.open("https://youtube.com", "_blank");
+  }
+  else if (q.includes("open google")) {
+    answer = "Google खोल रहा हूँ Sir.";
+    window.open("https://google.com", "_blank");
+  }
+  else if (q.includes("who are you")) {
+    answer = "मैं ZENOX हूँ, आपका Personal AI Assistant.";
+  }
+  else {
+    answer = "एक मिनट Sir, मैं सोच रहा हूँ...";
+
+    speak(answer);
+
+    try {
+      let response = await fetch(
+        "https://zenox-ai-brains.richibhargab.workers.dev",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: message
+          })
+        }
+      );
+
+      let data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "AI request failed");
+      }
+
+      answer = data.reply || "मुझे जवाब नहीं मिल पाया।";
+    }
+    catch (error) {
+      answer = "माफ़ कीजिए Sir, मेरा AI Brain अभी जवाब नहीं दे पा रहा है।";
+      console.error(error);
+    }
+  }
+
+  speak(answer);
 }
+  
 
 function listen(){
 let Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
