@@ -58,6 +58,10 @@ h1{font-size:36px;letter-spacing:8px;margin:30px 0 4px;text-shadow:0 0 24px #38b
 const $=id=>document.getElementById(id);
 let recognition=null,lastReply="Namaste! Main ZENOX hoon. Aap kya karna chahte hain?";
 const synth=window.speechSynthesis;
+ synth.onvoiceschanged=()=>{
+const vs=synth.getVoices();
+$("log").textContent=vs.map((v,i)=>i+": "+v.name+" ("+v.lang+")").join("\n")||"No voices found";
+};
 function setStatus(s){$("status").textContent=s}
 function say(text){
  lastReply=text;$("message").textContent=text;$("log").textContent="ZENOX: "+text;
