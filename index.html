@@ -64,9 +64,9 @@ function say(text){
  if(!synth){setStatus("TEXT MODE");return}
  synth.cancel();
  const u=new SpeechSynthesisUtterance(text);
- u.lang="hi-IN";u.rate=.88;u.pitch=.72;u.volume=1;
+ u.lang="en-US";u.rate=.88;u.pitch=.85;u.volume=1;
  const voices=synth.getVoices();
- const v=voices.find(x=>x.lang==="hi-IN"&&/male|india/i.test(x.name))||voices.find(x=>x.lang==="hi-IN")||voices.find(x=>x.lang.startsWith("en-IN"));
+ const v=voices.find(x=>x.lang==="en-US")||voices.find(x=>x.lang.startsWith("en-US"));
  if(v)u.voice=v;
  u.onstart=()=>setStatus("ZENOX SPEAKING");
  u.onend=()=>setStatus("SYSTEM STANDBY");
