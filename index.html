@@ -48,23 +48,46 @@ color:white;font-size:16px;
 <div id="reply">Hello Sir! I am Zenox. How can I help you?</div>
 
 <script>
+
+let speechQueue = [];
+let isSpeaking = false;
+
 function speak(text) {
-  let speech = new SpeechSynthesisUtterance(text);
+  if (!text) return;
+
+  speechQueue.push(text);
+  if (!isSpeaking) speakNext();
+}
+
+function speakNext() {
+  if (speechQueue.length === 0) {
+    isSpeaking = false;
+    return;
+  }
+
+  isSpeaking = true;
+
+  let speech = new SpeechSynthesisUtterance(speechQueue.shift());
   speech.lang = "hi-IN";
-  speech.rate = 0.9;
-  speech.pitch = 0.8;
+  speech.rate = 0.85;
+  speech.pitch = 0.9;
 
   let voices = speechSynthesis.getVoices();
-  let hindiVoice = voices.find(v =>
-    v.lang === "hi-IN" && /male|man/i.test(v.name)
-  );
+  let hindiVoice = voices.find(v => v.lang.toLowerCase() === "hi-in");
 
   if (hindiVoice) speech.voice = hindiVoice;
 
-  speechSynthesis.cancel();
+  speech.onend = function() {
+    speakNext();
+  };
+
+  speech.onerror = function() {
+    speakNext();
+  };
+
   speechSynthesis.speak(speech);
 }
-
+  
 
 async function send() {
   let input = document.getElementById("command");
