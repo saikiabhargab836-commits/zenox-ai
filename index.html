@@ -69,7 +69,7 @@ function speakNext() {
 
   let speech = new SpeechSynthesisUtterance(speechQueue.shift());
   speech.lang = "hi-IN";
-  speech.rate = 0.85;
+  speech.rate = 0.75;
   speech.pitch = 0.9;
 
   let voices = speechSynthesis.getVoices();
