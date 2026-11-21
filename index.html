@@ -1,111 +1,97 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#050b16">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZENOX AI</title>
-<link rel="manifest" href="manifest.webmanifest">
 <style>
-:root{--bg:#050b16;--cyan:#55d9ff;--blue:#1976d2;--muted:#8da9c4}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 50% 38%,#102d4b 0,#081526 38%,#030711 78%);color:#eaf7ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh;display:flex;justify-content:center}
-.app{width:min(100%,520px);min-height:100vh;padding:24px 22px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;align-items:center}
-.top{width:100%;display:flex;justify-content:space-between;align-items:center}
-.brand{font-size:13px;letter-spacing:5px;color:#a8dfff}
-.pill{font-size:11px;color:#8ce8ff;border:1px solid #1b5977;border-radius:30px;padding:6px 10px;letter-spacing:1px}
-h1{font-size:36px;letter-spacing:8px;margin:30px 0 4px;text-shadow:0 0 24px #38bfff}
-.sub{color:var(--muted);font-size:12px;letter-spacing:3px}
-.orb-wrap{margin:44px 0 26px;position:relative;width:230px;height:230px;display:grid;place-items:center}
-.ring{position:absolute;border:1px solid #39bffb55;border-radius:50%;inset:0;animation:spin 18s linear infinite}
-.ring:before,.ring:after{content:"";position:absolute;border:1px solid #39bffb55;border-radius:50%;inset:16px}
-.ring:after{inset:33px;border-style:dashed;animation:spin 12s linear infinite reverse}
-.core{width:142px;height:142px;border-radius:50%;border:1px solid #70e5ff;background:radial-gradient(circle at 50% 40%,#52d9ff55,#0a2947 55%,#06101e);box-shadow:0 0 24px #1abaff99,inset 0 0 30px #1abaff66;display:grid;place-items:center;transition:.25s}
-.core span{font-size:43px;color:#a6f0ff;text-shadow:0 0 20px #47d7ff}
-.listening .core{box-shadow:0 0 45px #26d5ff,inset 0 0 45px #1abaff;transform:scale(1.05)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.status{color:#8ce8ff;letter-spacing:3px;font-size:12px;min-height:20px;text-align:center}
-.message{margin:14px 0 20px;min-height:70px;width:100%;text-align:center;color:#d6eaff;font-size:15px;line-height:1.55;padding:0 10px}
-.mic{width:84px;height:84px;border-radius:50%;border:1px solid #8ce8ff;background:linear-gradient(145deg,#164c78,#071a31);color:white;font-size:29px;box-shadow:0 0 26px #28baff66;cursor:pointer}
-.mic:active{transform:scale(.96)}
-.hint{font-size:11px;color:#7898b5;margin-top:13px;text-align:center}
-.controls{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;justify-content:center}
-.small{background:#0a1c30;border:1px solid #24506f;color:#bceaff;border-radius:20px;padding:10px 15px;font-size:12px}
-.log{width:100%;margin-top:auto;padding-top:28px}
-.loghead{font-size:11px;letter-spacing:2px;color:#7097b8;margin-bottom:10px}
-.logbox{border:1px solid #183650;background:#06111f99;border-radius:14px;padding:12px;min-height:54px;color:#9bb9d2;font-size:12px;line-height:1.5}
-.foot{font-size:10px;color:#496780;margin-top:15px;text-align:center}
+body{
+margin:0;background:#030912;color:#00eaff;
+font-family:Arial;text-align:center;
+min-height:100vh;padding:25px 15px;
+}
+h1{letter-spacing:8px;text-shadow:0 0 20px #00eaff}
+.circle{
+width:190px;height:190px;border:3px solid #00eaff;
+border-radius:50%;margin:45px auto;
+box-shadow:0 0 30px #00eaff,inset 0 0 30px #00eaff;
+display:flex;align-items:center;justify-content:center;
+font-size:65px;animation:pulse 2s infinite;
+}
+@keyframes pulse{
+50%{box-shadow:0 0 55px #00eaff,inset 0 0 40px #00eaff}
+}
+button{
+background:#00eaff;color:#001018;border:0;
+padding:15px 25px;border-radius:30px;
+font-size:17px;font-weight:bold;margin:10px;
+}
+input{
+width:90%;padding:15px;border-radius:25px;
+border:1px solid #00eaff;background:#071522;
+color:white;font-size:16px;
+}
+#reply{margin:25px auto;max-width:500px;line-height:1.6}
 </style>
 </head>
 <body>
-<main class="app">
- <div class="top"><div class="brand">PERSONAL AI SYSTEM</div><div class="pill" id="conn">VOICE READY</div></div>
- <h1>ZENOX</h1><div class="sub">YOUR PERSONAL AI</div>
- <div class="orb-wrap" id="orb"><div class="ring"></div><div class="core"><span>✧</span></div></div>
- <div class="status" id="status">SYSTEM STANDBY</div>
- <div class="message" id="message">Namaste! Main ZENOX hoon. Baat shuru karne ke liye microphone dabao.</div>
- <button class="mic" id="mic" aria-label="Start voice input">🎙</button>
- <div class="hint">MICROPHONE BUTTON DABAKAR BOLO</div>
- <div class="controls">
-  <button class="small" id="repeat">REPEAT</button>
-  <button class="small" id="stop">STOP VOICE</button>
-  <button class="small" id="help">COMMANDS</button>
- </div>
- <section class="log"><div class="loghead">LATEST ACTIVITY</div><div class="logbox" id="log">ZENOX initialized. Waiting for your command.</div></section>
- <div class="foot">ZENOX V1 • Voice prototype • Internet AI connection will be added in the next phase</div>
-</main>
+<h1>J.A.R.V.I.S</h1>
+<p>PERSONAL AI ASSISTANT</p>
+<div class="circle">🤖</div>
+<p id="status">SYSTEM ONLINE</p>
+<input id="command" placeholder="Ask me anything...">
+<br>
+<button onclick="send()">SEND</button>
+<button onclick="listen()">🎤 SPEAK</button>
+<div id="reply">Hello Sir! I am JARVIS. How can I help you?</div>
+
 <script>
-const $=id=>document.getElementById(id);
-let recognition=null,lastReply="Namaste! Main ZENOX hoon. Aap kya karna chahte hain?";
-const synth=window.speechSynthesis;
- synth.onvoiceschanged=()=>{
-const vs=synth.getVoices();
-$("log").textContent=vs.map((v,i)=>i+": "+v.name+" ("+v.lang+")").join("\n")||"No voices found";
+function speak(text){
+document.getElementById("reply").innerText=text;
+let msg=new SpeechSynthesisUtterance(text);
+msg.lang="en-IN";
+msg.rate=0.9;
+let voices=speechSynthesis.getVoices();
+let male=voices.find(v=>/male/i.test(v.name));
+if(male)msg.voice=male;
+speechSynthesis.speak(msg);
+}
+
+function send(){
+let q=document.getElementById("command").value.toLowerCase();
+if(!q)return;
+let answer="I am JARVIS. I am ready to help you, Sir.";
+if(q.includes("hello")||q.includes("hi")||q.includes("नमस्ते"))
+answer="Hello Sir! How are you today?";
+else if(q.includes("time")||q.includes("समय"))
+answer="The time is "+new Date().toLocaleTimeString();
+else if(q.includes("date")||q.includes("तारीख"))
+answer="Today's date is "+new Date().toLocaleDateString();
+else if(q.includes("open youtube"))
+{answer="Opening YouTube Sir.";window.open("https://youtube.com","_blank");}
+else if(q.includes("open google"))
+{answer="Opening Google Sir.";window.open("https://google.com","_blank");}
+else if(q.includes("who are you"))
+answer="I am JARVIS, your personal assistant.";
+speak(answer);
+}
+
+function listen(){
+let Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!Speech){speak("Speech recognition is not supported in this browser.");return;}
+let r=new Speech();
+r.lang="en-IN";
+r.onstart=()=>document.getElementById("status").innerText="LISTENING...";
+r.onresult=e=>{
+document.getElementById("command").value=e.results[0][0].transcript;
+send();
 };
-function setStatus(s){$("status").textContent=s}
-function say(text){
- lastReply=text;$("message").textContent=text;$("log").textContent="ZENOX: "+text;
- if(!synth){setStatus("TEXT MODE");return}
- synth.cancel();
- const u=new SpeechSynthesisUtterance(text);
- u.lang="en-US";u.rate=.88;u.pitch=.85;u.volume=1;
- const voices=synth.getVoices();
- const v=voices.find(x=>x.lang==="en-US")||voices.find(x=>x.lang.startsWith("en-US"));
- alert(voices.map((x,i)=>i+": "+x.name+" ("+x.lang+")").join("\n") || "No voices found");
- u.onstart=()=>setStatus("ZENOX SPEAKING");
- u.onend=()=>setStatus("SYSTEM STANDBY");
- synth.speak(u);
+r.onerror=()=>document.getElementById("status").innerText="TRY AGAIN";
+r.onend=()=>document.getElementById("status").innerText="SYSTEM ONLINE";
+r.start();
 }
-function replyTo(raw){
- const q=raw.toLowerCase().trim();
- $("log").textContent="YOU: "+raw;
- let r;
- if(/hello|hi|namaste|नमस्ते|हेलो/.test(q)) r="Namaste! Main ZENOX hoon. Aapki kya madad kar sakta hoon?";
- else if(/time|समय|टाइम/.test(q)) r="Abhi aapke phone ke hisaab se "+new Date().toLocaleTimeString("hi-IN",{hour:"numeric",minute:"2-digit"})+" baj rahe hain.";
- else if(/date|तारीख|आज कौन सा दिन/.test(q)) r="Aaj "+new Date().toLocaleDateString("hi-IN",{weekday:"long",year:"numeric",month:"long",day:"numeric"})+" hai.";
- else if(/your name|naam|तुम कौन/.test(q)) r="Mera naam ZENOX hai. Main aapka personal voice assistant hoon.";
- else if(/youtube|vice city|gta|वीडियो/.test(q)) r="VICE CITY CLIPS ke liye main video ideas, hooks aur scripts banane mein madad kar sakta hoon. Real AI connection agle phase mein add hoga.";
- else if(/help|commands|मदद/.test(q)) r="Aap hello bolo, time poochho, date poochho, mera naam poochho, ya YouTube help maango. Abhi ye V1 ke basic offline commands hain.";
- else if(/stop|रुको|बंद/.test(q)){synth.cancel();r="Theek hai. Main ruk gaya hoon.";}
- else r="Maine aapki baat suni: "+raw+". Abhi meri basic V1 testing chal rahi hai. Real AI jawab ke liye next phase mein secure AI connection add karenge.";
- say(r);
-}
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(SR){
- recognition=new SR();recognition.lang="hi-IN";recognition.continuous=false;recognition.interimResults=false;
- recognition.onstart=()=>{$("orb").classList.add("listening");setStatus("LISTENING...");$("message").textContent="Main sun raha hoon...";};
- recognition.onresult=e=>{const t=e.results[0][0].transcript;replyTo(t)};
- recognition.onerror=e=>{setStatus("VOICE ERROR");$("message").textContent="Microphone permission check karo ya Chrome mein dobara try karo. ("+e.error+")";};
- recognition.onend=()=>{$("orb").classList.remove("listening");if($("status").textContent==="LISTENING...")setStatus("SYSTEM STANDBY");};
- $("mic").onclick=()=>{try{recognition.start()}catch(e){setStatus("PLEASE WAIT")}};
-}else{
- $("conn").textContent="LIMITED SUPPORT";
- $("mic").onclick=()=>say("Aapke browser mein voice recognition support nahi mil raha. Android Chrome mein is app ko HTTPS website se kholkar try karein.");
-}
-$("repeat").onclick=()=>say(lastReply);
-$("stop").onclick=()=>{if(recognition)recognition.stop();synth.cancel();setStatus("SYSTEM STANDBY");};
-$("help").onclick=()=>say("Aap hello bolo, time poochho, date poochho, mera naam poochho, ya YouTube help maango.");
-if("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script>
 </body>
 </html>
