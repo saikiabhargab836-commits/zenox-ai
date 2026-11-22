@@ -95,16 +95,13 @@ function speakNext() {
 }
   
 
+
 async function send() {
   let input = document.getElementById("command");
   let message = input.value.trim();
   let savedMemory = localStorage.getItem("zenox_memory") || "";
 
   if (!message) return;
-  localStorage.setItem(
-  "zenox_memory",
-  (savedMemory + "\nUser: " + message + "\nZENOX: " + answer).slice(-4000)
-);
 
   document.getElementById("response").innerText = "ZENOX सोच रहा है...";
 
@@ -141,9 +138,9 @@ async function send() {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-  message: message,
-  memory: savedMemory
-})
+            message: message,
+            memory: savedMemory
+          })
         }
       );
 
@@ -161,9 +158,15 @@ async function send() {
     }
   }
 
+  localStorage.setItem(
+    "zenox_memory",
+    (savedMemory + "\nUser: " + message + "\nZENOX: " + answer).slice(-4000)
+  );
+
   document.getElementById("response").innerText = answer;
   speak(answer);
 }
+  
   
   
 
